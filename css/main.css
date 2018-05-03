@@ -772,18 +772,18 @@ ul.social-links li:last-child a {
 }
 /* /About me list */
 
-/* Services */
-.service-block {
+/* Skills */
+.skills-block {
   text-align: center;
 }
 
-.service-block img {
+.skills-block img {
   max-width: 100px;
   max-height: 74px;
   margin: 0 0 18px;
 }
 
-.service-icon {
+.skills-icon {
   font-size: 70px;
   color: #f9966f;
   margin: 0 0 18px;
