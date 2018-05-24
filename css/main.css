@@ -1101,7 +1101,7 @@ ul.social-links li:last-child a {
 }
 
 .portfolio-grid figure {
-  width: 33.33%;
+  width: 50%;
   float: left;
   padding: 0.5em;
 }
@@ -1840,7 +1840,7 @@ blockquote {
 
 @media only screen and (max-width: 1200px) {
   .portfolio-grid figure {
-    width: 33.33333%;
+    width: 50%;
   }
   .blog-masonry .item {
     width: 50%;
