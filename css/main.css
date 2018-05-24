@@ -1139,7 +1139,7 @@ ul.social-links li:last-child a {
 }
 
 /* Direction-Aware Hover Effect */
-.portfolio-grid figure a div {
+.portfolio-grid figure a div, .portfolio-grid figure div div {
   top: 0px;
   left: -100%;
   padding: 5px 20px;
@@ -1150,7 +1150,7 @@ ul.social-links li:last-child a {
   transition: all 0.3s ease-in-out;
 }
 
-.portfolio-grid figure a:hover div {
+.portfolio-grid figure a:hover div, .portfolio-grid figure div:hover div {
   left: 0px;
 }
 
@@ -1161,18 +1161,20 @@ ul.social-links li:last-child a {
 }
 
 .portfolio-grid figure a,
-.portfolio-rid figure a img {
+.portfolio-rid figure a img,
+.portfolio-grid figure div,
+.portfolio-rid figure div img {
   display: block;
   position: relative;
 }
 
-.portfolio-grid figure a {
+.portfolio-grid figure a, .portfolio-grid figure div {
   position: relative;
   display: block;
   overflow: hidden;
 }
 
-.portfolio-grid figure a div {
+.portfolio-grid figure a div, .portfolio-grid figure div div {
   position: absolute;
   background: #4f565e;
   background: rgba(79,86,94,0.7);
@@ -1180,14 +1182,14 @@ ul.social-links li:last-child a {
   height: 100%;
   color: #888;
 }
-.portfolio-grid figure a div h5 {
+.portfolio-grid figure a div h5, .portfolio-grid figure div div h5  {
   display: inline-block;
   font-size: 1rem;
   margin: 10px 0;
   color: #fff;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
 }
-.portfolio-grid figure a div h5:after {
+.portfolio-grid figure a div h5:after, .portfolio-grid figure div div h5:after {
   display: block;
   content: '';
   width: 100%;
@@ -1195,14 +1197,14 @@ ul.social-links li:last-child a {
   margin: 0 auto;
   background-color: #f9966f;
 }
-.portfolio-grid figure a div small {
+.portfolio-grid figure a div small, .portfolio-grid figure div div small {
   color: #eee;
   position: absolute;
   bottom: 10px;
   left: 20px;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
 }
-.portfolio-grid figure a div i {
+.portfolio-grid figure a div i, .portfolio-grid figure div div i {
   color: #eee;
   position: absolute;
   bottom: 14px;
@@ -1210,7 +1212,7 @@ ul.social-links li:last-child a {
   margin: 0;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
 }
-.portfolio-grid figure a div span {
+.portfolio-grid figure a div span, .portfolio-grid figure div div span {
   display: block;
   padding: 10px 0;
   text-transform: uppercase;
