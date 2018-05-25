@@ -1,6 +1,8 @@
 <?php
 require_once('email_config.php');
 require('phpmailer/PHPMailer/PHPMailerAutoload.php');
+$okMessage = 'Contact form successfully submitted. Thank you, I will get back to you soon!';
+$errorMessage = 'There was an error while submitting the form. Please try again later';
 
 $message = [];
 $output = [
@@ -34,58 +36,73 @@ if($output['success'] !== null){
     echo json_encode($output);
     exit();
 }
-//set up email object
-$mail = new PHPMailer;
-$mail->SMTPDebug = 3;           // Enable verbose debug output. Change to 0 to disable debugging output.
 
-$mail->isSMTP();                // Set mailer to use SMTP.
-$mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers.
-$mail->SMTPAuth = true;         // Enable SMTP authentication
+try
+{
+    //set up email object
+    $mail = new PHPMailer;
+    // $mail->SMTPDebug = 3;           // Enable verbose debug output. Change to 0 to disable debugging output.
+
+    $mail->isSMTP();                // Set mailer to use SMTP.
+    $mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers.
+    $mail->SMTPAuth = true;         // Enable SMTP authentication
 
 
-$mail->Username = EMAIL_USER;   // SMTP username
-$mail->Password = EMAIL_PASS;   // SMTP password
-$mail->SMTPSecure = 'tls';      // Enable TLS encryption, `ssl` also accepted, but TLS is a newer more-secure encryption
-$mail->Port = 587;              // TCP port to connect to
-$options = array(
-    'ssl' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-    )
-);
-$mail->smtpConnect($options);
-$mail->From = $message['email'];  // sender's email address (shows in "From" field)
-$mail->FromName = $message['name'];   // sender's name (shows in "From" field)
-$mail->addAddress(EMAIL_USER);  // Add a recipient
-//or
-// $mail->From = EMAIL_USER;
-// $mail->FromName = EMAIL_USERNAME
-// $mail->addAddress(EMAIL_TO_ADDRESS);                        
-$mail->addReplyTo($message['email'],$message['name']);                          // Add a reply-to address
-//$mail->addCC('cc@example.com');
-//$mail->addBCC('bcc@example.com');
+    $mail->Username = EMAIL_USER;   // SMTP username
+    $mail->Password = EMAIL_PASS;   // SMTP password
+    $mail->SMTPSecure = 'tls';      // Enable TLS encryption, `ssl` also accepted, but TLS is a newer more-secure encryption
+    $mail->Port = 587;              // TCP port to connect to
+    $options = array(
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        )
+    );
+    $mail->smtpConnect($options);
+    $mail->From = $message['email'];  // sender's email address (shows in "From" field)
+    $mail->FromName = $message['name'];   // sender's name (shows in "From" field)
+    $mail->addAddress(EMAIL_USER);  // Add a recipient
+    //or
+    // $mail->From = EMAIL_USER;
+    // $mail->FromName = EMAIL_USERNAME
+    // $mail->addAddress(EMAIL_TO_ADDRESS);                        
+    $mail->addReplyTo($message['email'],$message['name']);                          // Add a reply-to address
+    //$mail->addCC('cc@example.com');
+    //$mail->addBCC('bcc@example.com');
 
-//$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-$mail->isHTML(true);                // Set email format to HTML
+    //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+    //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+    $mail->isHTML(true);                // Set email format to HTML
 
-//if you dont have a subject in your portfolio
-$message['subject'] = $message['name']." has sent you a message on your portfolio";
-// $message['subject'] = substr($message['message'],0,78);
-$mail->Subject = $message['subject'];
+    //if you dont have a subject in your portfolio
+    $message['subject'] = $message['name']." has sent you a message on your portfolio";
+    // $message['subject'] = substr($message['message'],0,78);
+    $mail->Subject = $message['subject'];
 
-$message['message'] = nl2br($message['message']); //Convert newline in line
-$mail->Body    = $message['message'];//'This is the HTML message body <b>in bold!</b>';
-$mail->AltBody = htmlentities($message['message']);//'This is the body in plain text for non-HTML mail clients';
+    $message['message'] = nl2br($message['message']); //Convert newline in line
+    $mail->Body    = $message['message'];//'This is the HTML message body <b>in bold!</b>';
+    $mail->AltBody = htmlentities($message['message']);//'This is the body in plain text for non-HTML mail clients';
 
-//Attemp email send, output result to client
-if(!$mail->send()) {
-    $output['success'] = false;
-    $output['messages'][] = $mail->ErrorInfo;  
-} else {
-    $output['success'] = true;
+    //Attemp email send, output result to client
+    if(!$mail->send()) {
+        $responseArray = array('type' => 'error', 'message' => $mail->ErrorInfo);
+    } else {
+        $responseArray = array('type' => 'success', 'message' => $okMessage);
+    }
 }
-echo json_encode($output);
+catch (\Exception $e)
+{
+    $responseArray = array('type' => 'danger', 'message' => $errorMessage);
+}
+
+if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+    $encoded = json_encode($responseArray);
+    header('Content-Type: application/json');
+    echo $encoded;
+}
+else {
+    echo $responseArray['message'];
+}
 
 ?>
