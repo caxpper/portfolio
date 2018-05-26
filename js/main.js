@@ -45,6 +45,8 @@
         $('#contact-form').on('submit', function (e) {
             if (!e.isDefaultPrevented()) {
                 var url = "php_mailer/mail_handler.php";
+                
+                $('.fa-spin').removeClass('hidden');
 
                 $.ajax({
                     type: "POST",
@@ -61,10 +63,14 @@
                             if (messageAlert == "alert-success") {
                                 $('#contact-form')[0].reset();
                             }
-                        }
+                        }                        
+                        $('.fa-spin').addClass('hidden');
                     }
                 });
                 return false;
+            }else{                
+                var alertBox = '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Please complete all the fields with some character</div>';                
+                $('#contact-form').find('.messages').html(alertBox);  
             }
         });
     });
