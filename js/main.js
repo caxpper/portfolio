@@ -69,7 +69,7 @@
                 });
                 return false;
             }else{                
-                var alertBox = '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Please complete all the fields with some character</div>';                
+                var alertBox = '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Please complete all the fields with correct information</div>';                
                 $('#contact-form').find('.messages').html(alertBox);  
             }
         });
@@ -103,6 +103,10 @@
         // Mobile menu
         $('.menu-toggle').click(function() { 
             $('.site-nav').toggleClass('mobile-menu-hide');
+        });
+
+        $('.pt-wrapper')[0].addEventListener("scroll", function(){
+            $('.site-nav').addClass('mobile-menu-hide');
         });
 
         // Testimonials Slider
