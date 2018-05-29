@@ -65,6 +65,11 @@
                             }
                         }                        
                         $('.fa-spin').addClass('hidden');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        var alertBox = '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> The email server is not responding. Please try again later.</div>';
+                        $('#contact-form').find('.messages').html(alertBox);
+                        $('.fa-spin').addClass('hidden');
                     }
                 });
                 return false;

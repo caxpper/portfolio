@@ -271,7 +271,10 @@
     return !!this.$inputs.filter('[required]').filter(fieldIncomplete).length
   }
 
-  Validator.prototype.onSubmit = function (e) {
+  Validator.prototype.onSubmit = function (e) {    
+    let text = $('#form_message').val();
+    text = text.trim();
+    $('#form_message').val(text);
     this.validate()
     if (this.isIncomplete() || this.hasErrors()) e.preventDefault()
   }
